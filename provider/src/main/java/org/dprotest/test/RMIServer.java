@@ -13,15 +13,15 @@ import java.rmi.registry.LocateRegistry;
  */
 public class RMIServer {
     public static void main(String[] args) {
-        zookeeperPublishSvr(2099);
+        zookeeperPublishSvr(DConstants.RMI_REGISTRY_HOST, DConstants.RMI_REGISTRY_PORT);
     }
 
-    public static void zookeeperPublishSvr(int port){
+    public static void zookeeperPublishSvr(String host, int port){
         ZookeeperHelloService provider = new ZookeeperHelloService();
         HelloService helloService = null;
         try {
             helloService = new HelloServiceImpl();
-            provider.publish(helloService, "localhost", port);
+            provider.publish(helloService, host, port);
 
             Thread.sleep(Long.MAX_VALUE);
         } catch (RemoteException e) {

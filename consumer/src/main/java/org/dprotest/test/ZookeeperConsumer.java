@@ -6,7 +6,6 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,7 +15,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NavigableMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -41,7 +39,7 @@ public class ZookeeperConsumer {
     private ZooKeeper connectServer() {
         ZooKeeper zk = null;
         try {
-            zk = new ZooKeeper("192.168.7.162:2181", 5000, new Watcher() {
+            zk = new ZooKeeper(DConstants.ZK_HOST_PORT, 5000, new Watcher() {
                 public void process(WatchedEvent event) {
                     if (event.getState() == Watcher.Event.KeeperState.SyncConnected) {
                         latch.countDown(); // 唤醒当前正在执行的线程
@@ -59,7 +57,7 @@ public class ZookeeperConsumer {
 
     private void watchNode(final ZooKeeper zk){
         try {
-            List<String> nodeList = zk.getChildren("/registry", new Watcher() {
+            List<String> nodeList = zk.getChildren(DConstants.ZK_ROOT_PATH, new Watcher() {
                 public void process(WatchedEvent event) {
                     if(event.getType() == Event.EventType.NodeChildrenChanged){
                         watchNode(zk);
@@ -68,7 +66,7 @@ public class ZookeeperConsumer {
             });
             List<String> data = new ArrayList<String>();
             for(String node: nodeList){
-                data.add(new String(zk.getData("/registry/" + node, false, null)));
+                data.add(new String(zk.getData(DConstants.ZK_ROOT_PATH + "/" + node, false, null)));
             }
             urlList = data;
         } catch (KeeperException e) {

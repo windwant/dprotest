@@ -49,7 +49,7 @@ public class ZookeeperHelloService {
     private ZooKeeper connectServer(){
         ZooKeeper zk = null;
         try {
-            zk = new ZooKeeper("192.168.7.162:2181", 5000, new Watcher() {
+            zk = new ZooKeeper(DConstants.ZK_HOST_PORT, 5000, new Watcher() {
                 public void process(WatchedEvent event) {
                     if (event.getState() == Event.KeeperState.SyncConnected) {
                         // 放开闸门, wait在connect方法上的线程将被唤醒
@@ -59,9 +59,9 @@ public class ZookeeperHelloService {
                 }
             });
             latch.await();
-            Stat stat = zk.exists("/registry", false);
+            Stat stat = zk.exists(DConstants.ZK_ROOT_PATH, false);
             if(stat==null) {
-                String path = zk.create("/registry", "rmi".getBytes(),
+                String path = zk.create(DConstants.ZK_ROOT_PATH, "rmi".getBytes(),
                         ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
         } catch (IOException e) {
@@ -76,7 +76,7 @@ public class ZookeeperHelloService {
 
     private void createNode(ZooKeeper zk, String url){
         try {
-            String path = zk.create("/registry/provider", url.getBytes(),
+            String path = zk.create(DConstants.ZK_ROOT_PATH + "/" + DConstants.ZK_BUSI_PATH, url.getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         } catch (KeeperException e) {
             e.printStackTrace();
