@@ -1,0 +1,4 @@
+.idea/
+provider/target/
+consumer/target/
+*.iml
