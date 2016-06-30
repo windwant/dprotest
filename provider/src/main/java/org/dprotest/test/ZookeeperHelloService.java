@@ -76,7 +76,7 @@ public class ZookeeperHelloService {
 
     private void createNode(ZooKeeper zk, String url){
         try {
-            String path = zk.create(DConstants.ZK_ROOT_PATH + "/" + DConstants.ZK_BUSI_PATH, url.getBytes(),
+            String path = zk.create(DConstants.ZK_ROOT_PATH  + DConstants.ZK_BUSI_PATH, url.getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         } catch (KeeperException e) {
             e.printStackTrace();

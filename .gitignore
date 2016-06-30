@@ -2,3 +2,4 @@
 provider/target/
 consumer/target/
 *.iml
+common/target/

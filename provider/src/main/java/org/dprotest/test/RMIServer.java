@@ -13,7 +13,11 @@ import java.rmi.registry.LocateRegistry;
  */
 public class RMIServer {
     public static void main(String[] args) {
-        zookeeperPublishSvr(DConstants.RMI_REGISTRY_HOST, DConstants.RMI_REGISTRY_PORT);
+        int port = DConstants.RMI_REGISTRY_PORT;
+        if(args != null && args.length > 0 && args[0] != null) {
+            port = Integer.parseInt(args[0]);
+        }
+        zookeeperPublishSvr(DConstants.RMI_REGISTRY_HOST, port);
     }
 
     public static void zookeeperPublishSvr(String host, int port){
