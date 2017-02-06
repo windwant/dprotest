@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * Created by aayongche on 2016/6/29.
+ * Created by windwant on 2016/6/29.
  */
 public class HelloServiceImpl extends UnicastRemoteObject implements HelloService {
 

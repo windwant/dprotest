@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 /**
- * Created by aayongche on 2016/6/29.
+ * Created by windwant on 2016/6/29.
  */
 public class RMIServer {
     public static void main(String[] args) {

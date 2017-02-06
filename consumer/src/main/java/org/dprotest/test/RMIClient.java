@@ -6,7 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
- * Created by aayongche on 2016/6/29.
+ * Created by windwant on 2016/6/29.
  */
 public class RMIClient {
     public static void main(String[] args) {
