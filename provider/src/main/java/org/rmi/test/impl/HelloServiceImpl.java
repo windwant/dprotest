@@ -1,6 +1,6 @@
-package org.dprotest.test.impl;
+package org.rmi.test.impl;
 
-import org.dprotest.test.HelloService;
+import org.rmi.test.HelloService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

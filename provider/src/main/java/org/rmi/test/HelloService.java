@@ -1,4 +1,4 @@
-package org.dprotest.test;
+package org.rmi.test;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

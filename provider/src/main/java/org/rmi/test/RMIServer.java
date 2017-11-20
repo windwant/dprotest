@@ -1,6 +1,8 @@
-package org.dprotest.test;
+package org.rmi.test;
 
-import org.dprotest.test.impl.HelloServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.rmi.test.impl.HelloServiceImpl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,25 +14,28 @@ import java.rmi.registry.LocateRegistry;
  * Created by windwant on 2016/6/29.
  */
 public class RMIServer {
+    private static final Logger logger = LogManager.getLogger(RMIServer.class);
+
     public static void main(String[] args) {
         int port = DConstants.RMI_REGISTRY_PORT;
         if(args != null && args.length > 0 && args[0] != null) {
             port = Integer.parseInt(args[0]);
         }
-        zookeeperPublishSvr(DConstants.RMI_REGISTRY_HOST, port);
+        publishSvr(DConstants.RMI_REGISTRY_HOST, port);
     }
 
-    public static void zookeeperPublishSvr(String host, int port){
-        ZookeeperHelloService provider = new ZookeeperHelloService();
+    public static void publishSvr(String host, int port){
+        RMIProvider provider = new RMIProvider();
         HelloService helloService = null;
         try {
             helloService = new HelloServiceImpl();
             provider.publish(helloService, host, port);
 
-            Thread.sleep(Long.MAX_VALUE);
+            logger.info("rmi service publish and start success ... ");
+            System.in.read();
         } catch (RemoteException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -38,7 +43,7 @@ public class RMIServer {
 
     public static void jndiPublishSvr(){
         int port = 1099;
-        String url = "rmi://localhost:1099/org.dprotest.test.impl.HelloServiceImpl";
+        String url = "rmi://localhost:1099/HelloServiceImpl";
         try {
             LocateRegistry.createRegistry(port);
             Naming.rebind(url, new HelloServiceImpl());

@@ -1,4 +1,4 @@
-package org.dprotest.test;
+package org.rmi.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

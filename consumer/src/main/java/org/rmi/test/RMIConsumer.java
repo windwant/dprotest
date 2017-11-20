@@ -1,4 +1,4 @@
-package org.dprotest.test;
+package org.rmi.test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,14 +21,14 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by windwant on 2016/6/29.
  */
-public class ZookeeperConsumer {
-    private static final Logger logger = LogManager.getLogger(ZookeeperConsumer.class);
+public class RMIConsumer {
+    private static final Logger logger = LogManager.getLogger(RMIConsumer.class);
 
     private CountDownLatch latch = new CountDownLatch(1);
 
     private volatile List<String> urlList = new ArrayList<String>();
 
-    ZookeeperConsumer(){
+    RMIConsumer(){
         ZooKeeper zk = connectServer();
         if(zk != null){
             watchNode(zk);
@@ -59,8 +59,8 @@ public class ZookeeperConsumer {
         try {
             List<String> nodeList = zk.getChildren(DConstants.ZK_ROOT_PATH, new Watcher() {
                 public void process(WatchedEvent event) {
-                    if(event.getType() == Event.EventType.NodeChildrenChanged){
-                        watchNode(zk);
+                    if(event.getType() == Event.EventType.NodeChildrenChanged){ //监听服务节点变更事件
+                        watchNode(zk);//重新注册
                     }
                 }
             });
@@ -76,6 +76,11 @@ public class ZookeeperConsumer {
         }
     }
 
+    /**
+     * 随机获取服务 服务都实现了Remote接口，泛型
+     * @param <T>
+     * @return
+     */
     public <T extends Remote> T lookup(){
         T service = null;
         int size = urlList.size();
