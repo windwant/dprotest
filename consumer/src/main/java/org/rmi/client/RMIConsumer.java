@@ -7,6 +7,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.rmi.common.DConstants;
+import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -92,7 +93,7 @@ public class RMIConsumer {
             }else{
                 url = urlList.get(ThreadLocalRandom.current().nextInt(size));
             }
-            service = lookupService(url);
+            service = lookupServiceWithSpring(url);
         }
         return service;
     }
@@ -106,6 +107,20 @@ public class RMIConsumer {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return remote;
+    }
+
+    private <T> T lookupServiceWithSpring(String url){
+        T remote = null;
+        RmiProxyFactoryBean factoryBean = new RmiProxyFactoryBean();
+        factoryBean.setServiceUrl(url);
+        try {
+            factoryBean.setServiceInterface(Class.forName(url.substring(url.lastIndexOf("/") + 1)));
+            factoryBean.afterPropertiesSet();
+            remote = (T) factoryBean.getObject();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return remote;
