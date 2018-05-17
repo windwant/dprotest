@@ -1,4 +1,4 @@
-package org.rmi.test;
+package org.rmi.client;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,6 +1,6 @@
-package org.rmi.test.impl;
+package org.rmi.server.impl;
 
-import org.rmi.test.HelloService;
+import org.rmi.common.HelloService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

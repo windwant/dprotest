@@ -1,4 +1,4 @@
-package org.rmi.test;
+package org.rmi.client;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,6 +6,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.rmi.common.DConstants;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

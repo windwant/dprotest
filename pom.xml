@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.dprotest.test</groupId>
-  <artifactId>dprotest</artifactId>
+  <groupId>org.rmi.demo</groupId>
+  <artifactId>rmi-demo</artifactId>
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>provider</module>
@@ -12,7 +12,7 @@
   </modules>
   <packaging>pom</packaging>
 
-  <name>dprotest</name>
+  <name>rmi-demo</name>
   <url>http://maven.apache.org</url>
 
   <properties>

@@ -1,4 +1,4 @@
-package org.rmi.test;
+package org.rmi.common;
 
 /**
  * Created by windwant on 2016/6/29.

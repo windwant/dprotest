@@ -29,6 +29,6 @@
             <appender-ref ref="RollingFile"/>
         </root>
 
-        <Logger name="org.rmi.test" level="${log-level}"/>
+        <Logger name="org.rmi.server" level="${log-level}"/>
     </Loggers>
 </Configuration>

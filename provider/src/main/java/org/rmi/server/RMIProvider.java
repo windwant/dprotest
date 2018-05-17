@@ -1,4 +1,4 @@
-package org.rmi.test;
+package org.rmi.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +13,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.rmi.common.DConstants;
 
 /**
  * Created by windwant on 2016/6/29.

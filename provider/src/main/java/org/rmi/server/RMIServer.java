@@ -1,8 +1,10 @@
-package org.rmi.test;
+package org.rmi.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.rmi.test.impl.HelloServiceImpl;
+import org.rmi.common.DConstants;
+import org.rmi.common.HelloService;
+import org.rmi.server.impl.HelloServiceImpl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
