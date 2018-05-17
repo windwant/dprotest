@@ -14,6 +14,7 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.rmi.common.DConstants;
+import org.springframework.remoting.rmi.RmiServiceExporter;
 
 /**
  * Created by windwant on 2016/6/29.
@@ -36,7 +37,34 @@ public class RMIProvider {
     private String publicService(Remote remote, String host, int port){
         String url = null;
         try {
-            url = String.format("rmi://%s:%d/%s", host, port, remote.getClass().getName());
+            url = String.format("rmi://%s:%d/%s", host, port, remote.getClass().getInterfaces()[0].getName());
+            LocateRegistry.createRegistry(port);
+            Naming.rebind(url, remote);
+            logger.info("service registered success ... ");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    /**
+     * 使用Spring 发布 RMI服务
+     * @param remote
+     * @param host
+     * @param port
+     * @return
+     */
+    private String publicServiceWithSpring(Remote remote, String host, int port){
+        String url = null;
+        try {
+            url = String.format("rmi://%s:%d/%s", host, port, remote.getClass().getInterfaces()[0].getName());
+            RmiServiceExporter exporter = new RmiServiceExporter();
+            exporter.setRegistryHost(host);
+            exporter.setRegistryPort(port);
+            exporter.setServiceInterface(remote.getClass().getInterfaces()[0]);
+            exporter.setServiceName(url);
             LocateRegistry.createRegistry(port);
             Naming.rebind(url, remote);
             logger.info("service registered success ... ");
