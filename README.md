@@ -4,13 +4,31 @@
 
 rmi 应用实例
 
-zookeeper服务管理
+1. zookeeper服务注册，发现，管理
 
-common：通用接口
+2. common：通用接口，工具类
 
-provider: rmi 服务提供者 不同发布方式
+3. provider: rmi 服务提供者
 
-consumer：rmi 服务消费者 不同消费方式
+   Tradition origin register
+
+   HttpInvoker Exporter
+
+   Hessian Exporter
 
 
+4. consumer：rmi 服务消费者
+
+   Tradition origin
+
+   HttpInvoker HttpInvokerProxy
+
+   Hessian HessianProxy
+
+
+测试：
+
+DConstants
+
+    public static final int TEST_TYPE = 0;// 测试类型 [0, 1, 2] O: Tradition 1: HttpInvoker 2: Hessian
 

@@ -5,7 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.rmi.common.DConstants;
 import org.rmi.common.HelloService;
 import org.rmi.server.impl.HelloServiceImpl;
+import org.rmi.server.provider.RmiHessionExporterProvider;
 import org.rmi.server.provider.RmiHttpInvokerExporterProvider;
+import org.rmi.server.provider.RmiRoutingProvider;
 import org.rmi.server.provider.RmiTraditionProvider;
 
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class RMIServer {
         if(args != null && args.length > 0 && args[0] != null) {
             port = Integer.parseInt(args[0]);
         }
-        RMIProvider provider = new RmiTraditionProvider(); //RmiHttpInvokerExporterProvider();
+        RMIProvider provider = RmiRoutingProvider.getTypeRmipRrovider(DConstants.TEST_TYPE);
         HelloService helloService = null;
         try {
             helloService = new HelloServiceImpl();

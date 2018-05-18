@@ -19,4 +19,6 @@ public class DConstants {
     public static final String HTTP_INVOKER_PATH = "/remoting/";
 
     public static final int HTTP_INVOKER_PORT = 8589;
+
+    public static final int TEST_TYPE = 0;// 测试类型 [0, 1, 2] O: Tradition 1: HttpInvoker 2: Hessian
 }

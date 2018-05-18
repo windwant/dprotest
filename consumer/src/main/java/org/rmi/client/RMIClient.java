@@ -1,8 +1,13 @@
 package org.rmi.client;
 
+import com.sun.org.apache.bcel.internal.generic.DCONST;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.rmi.client.consumer.RmiHessionConsumer;
+import org.rmi.client.consumer.RmiHttpInvokerConsumer;
+import org.rmi.client.consumer.RmiRoutingConsumer;
 import org.rmi.client.consumer.RmiTraditionConsumer;
+import org.rmi.common.DConstants;
 import org.rmi.common.HelloService;
 
 import java.io.IOException;
@@ -18,7 +23,7 @@ public class RMIClient {
     private static final Logger logger = LogManager.getLogger(RMIClient.class);
     public static void main(String[] args) throws IOException {
         try {
-            RMIConsumer consumer = new RmiTraditionConsumer(); //new RmiHttpInvokerConsumer();
+            RMIConsumer consumer = RmiRoutingConsumer.getTypeRmiConsumer(DConstants.TEST_TYPE);
             while (true) {
                 HelloService helloService = consumer.lookup();
                 String result = null;
