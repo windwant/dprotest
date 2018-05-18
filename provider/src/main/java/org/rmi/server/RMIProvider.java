@@ -50,7 +50,7 @@ public class RMIProvider {
     }
 
     /**
-     * 使用Spring 发布 RMI服务
+     * 使用Spring RmiServiceExporter 发布 RMI服务
      * @param remote
      * @param host
      * @param port
@@ -65,12 +65,10 @@ public class RMIProvider {
             exporter.setRegistryPort(port);
             exporter.setServiceInterface(remote.getClass().getInterfaces()[0]);
             exporter.setServiceName(url);
-            LocateRegistry.createRegistry(port);
-            Naming.rebind(url, remote);
+            exporter.setService(remote);
+            exporter.afterPropertiesSet();
             logger.info("service registered success ... ");
         } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return url;
