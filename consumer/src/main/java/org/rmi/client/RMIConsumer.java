@@ -7,14 +7,8 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.rmi.common.DConstants;
-import org.springframework.remoting.rmi.RmiProxyFactoryBean;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -23,14 +17,14 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by windwant on 2016/6/29.
  */
-public class RMIConsumer {
-    private static final Logger logger = LogManager.getLogger(RMIConsumer.class);
+public abstract class RMIConsumer {
+    public static final Logger logger = LogManager.getLogger(RMIConsumer.class);
 
     private CountDownLatch latch = new CountDownLatch(1);
 
     private volatile List<String> urlList = new ArrayList<String>();
 
-    RMIConsumer(){
+    public RMIConsumer(){
         ZooKeeper zk = connectServer();
         if(zk != null){
             watchNode(zk);
@@ -93,36 +87,16 @@ public class RMIConsumer {
             }else{
                 url = urlList.get(ThreadLocalRandom.current().nextInt(size));
             }
-            service = lookupServiceWithSpring(url);
+            service = lookupService(url);
         }
         return service;
     }
 
-    private <T> T lookupService(String url){
-        T remote = null;
-        try {
-            remote = (T) Naming.lookup(url);
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return remote;
-    }
-
-    private <T> T lookupServiceWithSpring(String url){
-        T remote = null;
-        RmiProxyFactoryBean factoryBean = new RmiProxyFactoryBean();
-        factoryBean.setServiceUrl(url);
-        try {
-            factoryBean.setServiceInterface(Class.forName(url.substring(url.lastIndexOf("/") + 1)));
-            factoryBean.afterPropertiesSet();
-            remote = (T) factoryBean.getObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return remote;
-    }
+    /**
+     * 模板方法 获取服务
+     * @param url
+     * @param <T>
+     * @return
+     */
+    public abstract  <T> T lookupService(String url);
 }

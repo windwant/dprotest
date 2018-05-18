@@ -4,23 +4,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.rmi.common.DConstants;
-import org.springframework.remoting.rmi.RmiServiceExporter;
 
 /**
  * Created by windwant on 2016/6/29.
  */
-public class RMIProvider {
-    private static final Logger logger = LogManager.getLogger(RMIProvider.class);
+public abstract class RMIProvider {
+    public static final Logger logger = LogManager.getLogger(RMIProvider.class);
 
     private CountDownLatch latch = new CountDownLatch(1);
 
@@ -34,45 +29,15 @@ public class RMIProvider {
         }
     }
 
-    private String publicService(Remote remote, String host, int port){
-        String url = null;
-        try {
-            url = String.format("rmi://%s:%d/%s", host, port, remote.getClass().getInterfaces()[0].getName());
-            LocateRegistry.createRegistry(port);
-            Naming.rebind(url, remote);
-            logger.info("service registered success ... ");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
     /**
-     * 使用Spring RmiServiceExporter 发布 RMI服务
+     * 模板方法
      * @param remote
      * @param host
      * @param port
      * @return
      */
-    private String publicServiceWithSpring(Remote remote, String host, int port){
-        String url = null;
-        try {
-            url = String.format("rmi://%s:%d/%s", host, port, remote.getClass().getInterfaces()[0].getName());
-            RmiServiceExporter exporter = new RmiServiceExporter();
-            exporter.setRegistryHost(host);
-            exporter.setRegistryPort(port);
-            exporter.setServiceInterface(remote.getClass().getInterfaces()[0]);
-            exporter.setServiceName(url);
-            exporter.setService(remote);
-            exporter.afterPropertiesSet();
-            logger.info("service registered success ... ");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+    public abstract String publicService(Remote remote, String host, int port);
+
 
     private ZooKeeper connectServer(){
         ZooKeeper zk = null;

@@ -2,6 +2,7 @@ package org.rmi.client;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.rmi.client.consumer.RmiTraditionConsumer;
 import org.rmi.common.HelloService;
 
 import java.io.IOException;
@@ -16,12 +17,8 @@ import java.rmi.RemoteException;
 public class RMIClient {
     private static final Logger logger = LogManager.getLogger(RMIClient.class);
     public static void main(String[] args) throws IOException {
-        TestClient();
-    }
-
-    public static void TestClient(){
-        RMIConsumer consumer = new RMIConsumer();
         try {
+            RMIConsumer consumer = new RmiTraditionConsumer(); //new RmiHttpInvokerConsumer();
             while (true) {
                 HelloService helloService = consumer.lookup();
                 String result = null;

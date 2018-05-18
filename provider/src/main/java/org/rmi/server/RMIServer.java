@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.rmi.common.DConstants;
 import org.rmi.common.HelloService;
 import org.rmi.server.impl.HelloServiceImpl;
+import org.rmi.server.provider.RmiHttpInvokerExporterProvider;
+import org.rmi.server.provider.RmiTraditionProvider;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,6 +15,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 /**
+ * RMI SERVER
  * Created by windwant on 2016/6/29.
  */
 public class RMIServer {
@@ -23,15 +26,11 @@ public class RMIServer {
         if(args != null && args.length > 0 && args[0] != null) {
             port = Integer.parseInt(args[0]);
         }
-        publishSvr(DConstants.RMI_REGISTRY_HOST, port);
-    }
-
-    public static void publishSvr(String host, int port){
-        RMIProvider provider = new RMIProvider();
+        RMIProvider provider = new RmiTraditionProvider(); //RmiHttpInvokerExporterProvider();
         HelloService helloService = null;
         try {
             helloService = new HelloServiceImpl();
-            provider.publish(helloService, host, port);
+            provider.publish(helloService, DConstants.RMI_REGISTRY_HOST, port);
 
             logger.info("rmi service publish and start success ... ");
             System.in.read();
@@ -40,7 +39,6 @@ public class RMIServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void jndiPublishSvr(){

@@ -15,4 +15,8 @@ public class DConstants {
     public static final String RMI_REGISTRY_HOST = "localhost";
 
     public static final int RMI_REGISTRY_PORT = 1099;
+
+    public static final String HTTP_INVOKER_PATH = "/remoting/";
+
+    public static final int HTTP_INVOKER_PORT = 8589;
 }
