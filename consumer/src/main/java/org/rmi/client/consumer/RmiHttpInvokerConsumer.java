@@ -4,6 +4,8 @@ import org.rmi.client.RMIConsumer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 /**
+ * HttpInvokerProxyFactoryBean
+ *
  * Created by windwant on 2016/6/29.
  */
 public class RmiHttpInvokerConsumer extends RMIConsumer{
