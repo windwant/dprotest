@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:property-placeholder location="classpath:config.properties"/>
+    <bean name="helloSvr" class="org.rmi.server.impl.HelloServiceImpl"/>
+
+    <bean name="org.rmi.common.HelloService" class="org.springframework.remoting.httpinvoker.SimpleHttpInvokerServiceExporter">
+        <property name="service" ref="helloSvr"/>
+        <property name="serviceInterface" value="org.rmi.common.HelloService"/>
+    </bean>
+
+    <bean name="sp" class="org.rmi.server.RMISpringServer">
+    </bean>
+
+    <bean id="httpServer"
+          class="org.springframework.remoting.support.SimpleHttpServerFactoryBean">
+        <property name="contexts">
+            <map>
+                <entry key="/remoting/org.rmi.common.HelloService" value-ref="org.rmi.common.HelloService"/>
+            </map>
+        </property>
+        <property name="port" value="8080" />
+    </bean>
+</beans>
